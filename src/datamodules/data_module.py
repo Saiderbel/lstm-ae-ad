@@ -16,6 +16,9 @@ class ADDataModule(pl.LightningDataModule):
 
 
     def setup(self, stage: Optional[str] = None):
+        """
+        :param stage: can be "train" or "predict"
+        """
         if stage == "predict":
             chunks = []
             for chunk in pd.read_csv(self.dataset_path, chunksize=55555, sep="\t"):

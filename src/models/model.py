@@ -124,20 +124,14 @@ class ADModel(pl.LightningModule):
         # remember to always return loss from `training_step()` or else backpropagation will fail!
         return {"loss": loss}
 
-    def training_epoch_end(self, outputs: List[Any]):
-        # `outputs` is a list of dicts returned from `training_step()`
-        pass
 
     def validation_step(self, batch: Any, batch_idx: int):
         loss= self.step(batch)
-
 
         self.log("val/loss", loss, on_step=False, on_epoch=True, prog_bar=False)
 
         return {"loss": loss}
 
-    def validation_epoch_end(self, outputs: List[Any]):
-        pass
 
     def test_step(self, batch: Any, batch_idx: int):
         loss= self.step(batch)
@@ -145,17 +139,3 @@ class ADModel(pl.LightningModule):
         self.log("test/loss", loss, on_step=False, on_epoch=True)
 
         return {"loss": loss}
-
-    def test_epoch_end(self, outputs: List[Any]):
-        pass
-
-    def on_epoch_end(self):
-        pass
-
-    @staticmethod
-    def add_model_specific_args(parent_parser):
-        parser = ArgumentParser(parents=[parent_parser], add_help=False)
-        parser.add_argument('--hidden_dim', type=int, default=4000)
-        parser.add_argument('--lr', type=float, default=0.0018503400005483856)
-        parser.add_argument('--scheduler_patience', default=5, type=int)
-        return parser
