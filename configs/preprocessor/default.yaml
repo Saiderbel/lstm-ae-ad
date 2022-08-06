@@ -1,0 +1,5 @@
+##TODO: define params
+_target_: src.preprocess.preprocessor.Preprocessor
+dataset_path: ${data_dir}/test_pipeline.csv
+feat_transformers_path: ${data_dir}/preprocessing
+output_full_path: ${data_dir}/test_pipeline_pro.csv

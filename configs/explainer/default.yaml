@@ -1,0 +1,10 @@
+##TODO: define params
+_target_: src.explainable.explainer.Explainer
+raw_dataset_path: ${preprocessor.dataset_path}
+dataset_path: ${preprocessor.output_full_path}
+model_ckpt_path: ${data_dir}/torch_model.ckpt
+maes_path: ${data_dir}/maes.csv
+output_path: ${data_dir}
+notebook_path: ${notebooks_dir}
+#percentage of elements below the anomaly threshold
+outlier_threshold: 0.97

@@ -1,0 +1,7 @@
+##TODO: define params
+_target_: src.models.model.ADModel
+batch_size: ${datamodule.batch_size} #specified in the global config.yaml of the patent caller
+lr: 0.00021403010424021394
+hidden_dim_1: 640
+hidden_dim_2: 320
+seq_len: 32
