@@ -13,23 +13,33 @@ log = utils.get_logger(__name__)
 
 @hydra.main(config_path="configs/", config_name="preprocess.yaml")
 def main(config: DictConfig):
+    """
+    Main function for preprocessing data.
 
+    config file specified in configs/preprocess.yaml
+
+    Parameters
+    ----------
+    config : Dict[str, Any]
+        Configuration dictionary containing the following keys:
+            - "seed": (int, optional) Seed for random number generators.
+            - "preprocessor": (Dict[str, Any]) Configuration dictionary for the preprocessor.
+            - "extras": (Dict[str, Any], optional) Configuration dictionary for optional utilities.
+
+    Returns
+    -------
+    None
+    """
     # Imports can be nested inside @hydra.main to optimize tab completion
     # https://github.com/facebookresearch/hydra/issues/934
     from src import utils
-    from src.preprocess.preprocessor import Preprocessor
+    from src.preprocessing_pipeline import preprocess
 
     # Applies optional utilities
     utils.extras(config)
 
-    # Init lightning datamodule
-    log.info(f"Instantiating the preprocessor <{config.preprocessor._target_}>")
-    preprocessor: Preprocessor = hydra.utils.instantiate(config.preprocessor)
-
-    log.info(f"Preprocessing file")
-    preprocessor.preprocess()
-    log.info(f"All done!")
-
+    # Train model
+    return preprocess(config)
 
 if __name__ == "__main__":
     main()

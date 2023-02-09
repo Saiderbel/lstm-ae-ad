@@ -12,13 +12,23 @@ log = utils.get_logger(__name__)
 
 
 def test(config: DictConfig) -> None:
-    """Contains minimal example of the testing pipeline. Evaluates given checkpoint on a testset.
+    """
+    Testing pipeline.
 
-    Args:
-        config (DictConfig): Configuration composed by Hydra.
+    Parameters
+    ----------
+    config : Dict[str, Any]
+        Configuration dictionary containing the following keys:
+            - "seed": (int, optional) Seed for random number generators.
+            - "ckpt_path": (str) Path to checkpoint file.
+            - "datamodule": (Dict[str, Any]) Configuration dictionary for the data module.
+            - "model": (Dict[str, Any]) Configuration dictionary for the model.
+            - "trainer": (Dict[str, Any]) Configuration dictionary for the trainer.
+            - "logger": (Dict[str, Dict[str, Any]], optional) Configuration dictionaries for the loggers.
 
-    Returns:
-        None
+    Returns
+    -------
+    None
     """
 
     # Set seed for random number generators in pytorch, numpy and python.random

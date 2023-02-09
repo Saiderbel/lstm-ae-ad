@@ -2,6 +2,7 @@ import os
 from typing import List, Optional
 
 import hydra
+import torch
 from omegaconf import DictConfig
 from pytorch_lightning import (
     Callback,
@@ -16,16 +17,31 @@ from src import utils
 
 log = utils.get_logger(__name__)
 
-
 def train(config: DictConfig) -> Optional[float]:
-    """Contains the training pipeline. Can additionally evaluate model on a testset, using best
-    weights achieved during training.
+    """
+    Pipeline for training a PyTorch model. Can additionally evaluate the model on a testset.
+    Outputs the mae values of the training dataset to a file which path is specified by config.maes_path.
 
-    Args:
-        config (DictConfig): Configuration composed by Hydra.
+    Parameters
+    ----------
+    config : Dict[str, Any]
+        Configuration dictionary containing the following keys:
+            - "seed": (int, optional) Seed for random number generators.
+            - "train": (bool, optional) Flag to indicate whether to train the model. Default is `True`.
+            - "test": (bool, optional) Flag to indicate whether to test the model. Default is `False`.
+            - "optimized_metric": (str, optional) Metric to be used for hyperparameter optimization.
+            - "datamodule": (Dict[str, Any]) Configuration dictionary for the data module.
+            - "model": (Dict[str, Any]) Configuration dictionary for the model.
+            - "trainer": (Dict[str, Any]) Configuration dictionary for the trainer.
+            - "callbacks": (Dict[str, Dict[str, Any]], optional) Configuration dictionaries for the callbacks.
+            - "logger": (Dict[str, Dict[str, Any]], optional) Configuration dictionaries for the loggers.
+            - "wrapper": (Dict[str, Any]) Configuration dictionary for the wrapper module.
 
-    Returns:
-        Optional[float]: Metric score for hyperparameter optimization.
+    Returns
+    -------
+    score : float, optional
+        Score of the `optimized_metric` for hyperparameter optimization. Returned only if `optimized_metric` is
+        provided in the configuration.
     """
 
     # Set seed for random number generators in pytorch, numpy and python.random
@@ -100,7 +116,20 @@ def train(config: DictConfig) -> Optional[float]:
         if not config.get("train") or config.trainer.get("fast_dev_run"):
             ckpt_path = None
         log.info("Starting testing!")
+        print(ckpt_path)
         trainer.test(model=model, datamodule=datamodule, ckpt_path=ckpt_path)
+
+
+    log.info(f"Calculating mean absolute errors over training dataset <{config.model._target_}>")
+    #print(ckpt_path)
+    #model.load_from_checkpoint(ckpt_path)
+    wrappermodel: LightningModule = hydra.utils.instantiate(config.wrapper, ckpt_path=trainer.checkpoint_callback.best_model_path)
+
+    maes = torch.cat(trainer.predict(model=wrappermodel, datamodule=datamodule)).flatten()
+
+    maes, _ = torch.sort(maes)
+    torch.save(maes, config.maes_path)
+    log.info(f"Saving maes to %s" %str(config.maes_path))
 
     # Make sure everything closed properly
     log.info("Finalizing!")
@@ -118,4 +147,4 @@ def train(config: DictConfig) -> Optional[float]:
         log.info(f"Best model ckpt at {trainer.checkpoint_callback.best_model_path}")
 
     # Return metric score for hyperparameter optimization
-    return score
+    return trainer.checkpoint_callback.best_model_path

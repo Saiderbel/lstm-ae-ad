@@ -3,8 +3,8 @@
 # specify here default evaluation configuration
 defaults:
   - _self_
-  - datamodule: modelnet.yaml # choose the datamodule for evaluation
-  - model: mvt.yaml
+  - datamodule: addatamod.yaml # choose the datamodule for evaluation
+  - model: admodel.yaml
   - callbacks: null
   - logger: null
   - trainer: default.yaml
@@ -29,4 +29,4 @@ seed: null
 name: "default"
 
 # passing checkpoint path is necessary
-ckpt_path: /tmp/mvt/logs/experiments/runs/training/2022-07-18_21-57-24/checkpoints/epoch_015.ckpt
+ckpt_path: /tmp/ad/logs/experiments/runs/training/2022-12-20_19-12-17/checkpoints/epoch_002.ckpt

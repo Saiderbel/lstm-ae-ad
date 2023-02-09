@@ -1,5 +1,18 @@
 ##TODO: define params
 _target_: src.preprocess.preprocessor.Preprocessor
-dataset_path: ${data_dir}/test_pipeline.csv
-feat_transformers_path: ${data_dir}/preprocessing
-output_full_path: ${data_dir}/test_pipeline_pro.csv
+
+#input dataset
+dataset_path: ${data_dir}/test_pipeline_small_raw.csv
+#path to where the feature transfomers to use are located, if create_feature_transformers is set to True, a folder will be created here and
+#the new transfomers will be saved
+feat_transformers_path: ${data_dir}/preprocessing/test_pipeline_small_raw
+
+#full output path of the preprocessed dataset
+output_full_path: ${data_dir}/test_pipeline_small_pro.csv
+
+#if set to true new transformers will be created, fitted, saved to a directory in feat_transformers_path and used to standardize dataset
+#otherwise transformers will be read from feat_transformers_path
+create_feature_transformers: True
+
+#feature to ignore
+features_to_ignore: ["Bytes (custom)"]

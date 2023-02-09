@@ -1,10 +1,9 @@
+# @package _global_
 
 # specify here default training configuration
 defaults:
   - _self_
   - preprocessor: default.yaml
-
-  # enable color logging
   - override hydra/hydra_logging: colorlog
   - override hydra/job_logging: colorlog
 

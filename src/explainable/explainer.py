@@ -1,35 +1,61 @@
 import numpy as np
-import os
 import torch
 import sys
 import pandas as pd
 from pathlib import Path
-from src.datamodules.anomaly_dataset import AnomalyDataset
 from src.datamodules.data_module import ADDataModule
 from src.explainable.ModelWrapper import ModelWrapper
-from argparse import ArgumentParser
-import pytorch_lightning as pl
-import matplotlib.pyplot as plt
 from src.models.model import ADModel
 import logging
 import shap
-import nbformat as nbf
-import pickle
 shap.initjs()
+import nbformat as nbf
+import warnings
+warnings.filterwarnings("ignore")
+import pickle
+
 
 
 class Explainer():
-    def __init__(self, dataset_path, raw_dataset_path, model_ckpt_path, output_path, maes_path, notebook_path, outlier_threshold=0.99):
+    """
+    Explainer class for generating explanantions of the anomaly detection module.
+
+    config file specified in configs/explainer/default.yaml
+    """
+
+    def __init__(self, dataset_path, raw_dataset_path, model_ckpt_path, output_path, maes_path, notebook_path, features_to_ignore=[], outlier_threshold=0.99):
+        """
+        Initialize the Explainer instance.
+
+        Parameters
+        ----------
+        dataset_path : str
+            The path to the preprocessed dataset.
+        raw_dataset_path : str
+            The path to the raw dataset.
+        model_ckpt_path : str
+            The path to the checkpoint file for the pre-trained model.
+        output_path : str
+            The path to the directory where the explanations should be saved.
+        maes_path : str
+            The path to the file containing the mean absolute errors for the train set.
+        notebook_path : str
+            The path to the notebook that will be used to display the explanations.
+        outlier_threshold : float
+            The fraction of the dataset that is considered normal (not anomalous).
+        features_to_ignore : List[str]
+            The features to ignore.
+        """
         #path to dataset in raw format
         self.dataset_path = Path(dataset_path)
         self.output_path = Path(output_path)
         self.notebook_path = Path(notebook_path)
-
+        warnings.filterwarnings("ignore")
         #preprocessed dataset given from the preprocessor
         #self.dataset = dataset
 
         chunks = []
-        for chunk in pd.read_csv(dataset_path, chunksize=55555, sep="\t"):
+        for chunk in pd.read_csv(dataset_path, chunksize=55555):
             chunks.append(chunk)
         # a Pandas DataFrame to store the imported Data
         self.dataset = pd.concat(chunks)
@@ -38,37 +64,14 @@ class Explainer():
 
         # importing the dataset chunkwise to avoid memory saturation
         chunks = []
-        for chunk in pd.read_csv(raw_dataset_path, chunksize=55555, sep="\t"):
+        for chunk in pd.read_csv(raw_dataset_path, chunksize=55555):
             chunks.append(chunk)
         # a Pandas DataFrame to store the imported Data
         self.dataset_raw = pd.concat(chunks)
+        self.dataset_raw = self.dataset_raw.drop(columns=features_to_ignore)
+        self.raw_columns = list(self.dataset_raw.columns)
 
-
-        lstr_args = ['--batch_size', '128',
-                     '--hidden_dim_1', '256',
-                     '--strategy', 'dp',
-                     '--hidden_dim_2', '128',
-                     '--track_grad_norm', '2'
-                     ]
-
-        parser = ArgumentParser()
-        # program level args
-        parser.add_argument('--seed', default=1234, type=int)
-        parser.add_argument('--run_name', default='explain', type=str)
-        parser.add_argument('--batch_size', default=64, type=int)
-        parser.add_argument('--seq_len', default=32, type=int)
-        parser.add_argument('--hidden_dim_1', default=640, type=int)
-        parser.add_argument('--hidden_dim_2', default=320, type=int)
-        # trainer level args
-        parser = pl.Trainer.add_argparse_args(parser)
-        # model level args
-        parser = ADModel.add_model_specific_args(parser)
-        if lstr_args is None:
-            args = parser.parse_args()  # from sys.argv
-        else:
-            args = parser.parse_args(lstr_args)
-
-        raw_model = ADModel(**vars(args)).load_from_checkpoint(model_ckpt_path)
+        raw_model = ADModel.load_from_checkpoint(model_ckpt_path)
         raw_model.eval()
         device = torch.device('cuda:0' if torch.cuda.is_available() else "cpu")
         raw_model.to(device)
@@ -78,29 +81,36 @@ class Explainer():
         model.to(device)
         self.model = model
 
-        #read maes dataset
-        maes = pd.read_csv(maes_path, sep="\t")
-        maes = maes.sort_values(by="mae", ignore_index=True, ascending=True)
+
+        #read maes
+        maes = torch.load(maes_path)
 
         #set mae threshold value
-        self.threshold = maes.loc[int(len(maes.index) * outlier_threshold)].values[0]
-        print(self.threshold)
+        self.threshold = maes[int(len(maes) * outlier_threshold)].item()
 
         self.device = device
+        self.features_to_ignore = features_to_ignore
 
 
     def explain(self):
-        logging.info("Starting explaining process!")
+        """
+        Generate explanations for the predictions made by the model on the dataset.
 
-        batch_size = 32
+        This method generates explanations for the predictions made by the model on the dataset, and saves them to
+        a notebook in `output_path`.
+        """
+        logging.info("Starting explaining process!")
+        batch_size = self.model.ad_module.hparams.batch_size
+        seq_length = self.model.ad_module.hparams.seq_length
+        num_features = self.model.ad_module.hparams.num_features
 
         maes_test = None
 
         logging.info("Creating Datamodule!")
         #predict on the dataset
-        dm = ADDataModule(self.dataset_path, batch_size=batch_size, seq_len=32)
+        dm = ADDataModule(self.dataset_path, batch_size=batch_size, seq_len=seq_length)
         dm.setup(stage="predict")
-        prd_loader = dm.pred_dataloader()
+        prd_loader = dm.predict_dataloader()
 
         logging.info("Predicting!")
         total = int(len(self.dataset.index) / batch_size)
@@ -109,7 +119,7 @@ class Explainer():
             with torch.no_grad():
                 output = self.model(batch).view((batch.shape[0]))
                 if i == 0:
-                    maes_test = torch.cat((torch.zeros((31)), output))
+                    maes_test = torch.cat((torch.zeros((seq_length - 1)), output))
                 else:
                     maes_test = torch.cat((maes_test, output))
             sys.stdout.write("Prediction progress: %d / %d   \r" % (i, total))
@@ -124,41 +134,59 @@ class Explainer():
         dataframes = []
         dataframes_raw = []
         for example in pos_examples:
-            dataframes.append(self.dataset.iloc[example - 32:example])
-            dataframes_raw.append(self.dataset_raw.iloc[example - 32:example].reset_index())
+            dataframes.append(self.dataset.iloc[example - seq_length:example])
+            dataframes_raw.append(self.dataset_raw.iloc[example - seq_length:example].reset_index())
 
-        background_data = torch.tensor(self.dataset.iloc[0:32].to_numpy().astype(np.float32)).unsqueeze(0)
+        background_data = torch.tensor(self.dataset.iloc[0:seq_length].to_numpy().astype(np.float32)).unsqueeze(0)
 
         explained_output = self.output_path / "explained"
         explained_output.mkdir(parents=True, exist_ok=True)
 
+        columns = list(self.dataset.columns)
+        #features_to_consider = ['Bytes (custom)', 'Destination IP', 'Destination Port', 'Event Name', 'Log Source', 'Magnitude', 'Source IP', 'MS Since Week Begin']
         for i, example in enumerate(pos_examples):
             save_dir = explained_output / str(example)
             save_dir.mkdir(parents=True, exist_ok=True)
             data = torch.tensor(dataframes[i].to_numpy().astype(np.float32)).unsqueeze(0)
+
+
             explainer = shap.DeepExplainer(self.model, background_data)
-            shap_values = explainer.shap_values(data).reshape(32, 22)
-            expected = explainer.expected_value
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                shap_values = explainer.shap_values(data).reshape(self.model.ad_module.hparams.seq_length, num_features)
+
             with open(save_dir / "shap_values.npy", "wb") as file:
                 pickle.dump(shap_values, file)
 
+            features_importances = {}
+
             #aggregating features for complete feature imporatances
-            source_port = np.expand_dims(shap_values[:, 0], 1)
-            destination_port = np.expand_dims(shap_values[:, 1], 1)
-            magnitude = np.expand_dims(shap_values[:, 2], 1)
-            event_name = shap_values[:, 3:12]
-            source_ip = shap_values[:, 13:16]
-            destination_ip = shap_values[:, 17:20]
-            ms_since_week_begin = np.expand_dims(shap_values[:, 21], 1)
+            for feature in self.raw_columns:
+                if "Log" in feature or "IP" in feature or feature == "Event Name":
+                    # multicolumns featues
+                    idx = [i for i in range(len(columns)) if feature in columns[i]]
+                    importances = shap_values[:, idx]
+                    importances = np.expand_dims(np.sum(importances, axis=1), 1)
+                else:
+                    #single column feature
+                    if feature == "Start Time":
+                        importances = np.expand_dims(shap_values[:, columns.index("MS Since Week Begin")], 1)
+                    else:
+                        importances = np.expand_dims(shap_values[:, columns.index(feature)], 1)
 
-            event_name = np.expand_dims(np.sum(event_name, axis=1), 1)
-            source_ip = np.expand_dims(np.sum(source_ip, axis=1), 1)
-            destination_ip = np.expand_dims(np.sum(destination_ip, axis=1), 1)
 
-            new_shap = np.hstack((source_port, destination_port, magnitude, event_name, source_ip, destination_ip, ms_since_week_begin))
+                features_importances[feature] = importances
+
+
+            aggregated_feature_importances = ()
+            for column in self.raw_columns:
+                aggregated_feature_importances += (features_importances[column],)
+
+
+            aggregated_feature_importances = np.hstack(aggregated_feature_importances)
 
             with open(save_dir / "shap_values_agg.npy", "wb") as file:
-                pickle.dump(new_shap, file)
+                pickle.dump(aggregated_feature_importances, file)
 
         nb = nbf.v4.new_notebook()
 
@@ -188,27 +216,21 @@ To get the plots and the relative dataset occurrence, just indicate the anomaly 
 anomaly_to_explain_id = 0"""
 
         cell_4 = """\
-columns = ['Source Port', 'Destination Port', 'Magnitude', 'Event Name_0',
-'Event Name_1', 'Event Name_2', 'Event Name_3', 'Event Name_4',
-'Event Name_5', 'Event Name_6', 'Event Name_7', 'Event Name_8',
-'Event Name_9', 'Source_IP_0', 'Source_IP_1', 'Source_IP_2',
-'Source_IP_3', 'Destination_IP_0', 'Destination_IP_1',
-'Destination_IP_2', 'Destination_IP_3', 'ms_since_week_begin']
+columns = %s
 
-columns_raw = ["source_port", "destination_port", "magnitude", "event_name", "source_ip", "destination_ip",
-                 "ms_since_week_begin"]
+columns_raw = %s
                  
 colums_extended = []
-for i in range(32):
+for i in range(%d):
     for j in range(7):
         if i != 31:
             colums_extended.append(columns_raw[j] + " (t-" + str(31 - i) + ") " + " i=" + str(i))
         else:
-            colums_extended.append(columns_raw[j] + " (t) " + " i=" + str(i))"""
+            colums_extended.append(columns_raw[j] + " (t) " + " i=" + str(i))""" %(str(list(self.dataset.columns)), str(self.raw_columns), self.model.ad_module.hparams.seq_length)
         cell_5 = """\
 #importing the dataset chunkwise to avoid memory saturation
 chunks = []
-for chunk in pd.read_csv("%s", chunksize=55555, sep = "\t"):
+for chunk in pd.read_csv("%s", chunksize=55555):
     chunks.append(chunk)
 #a Pandas DataFrame to store the imported Data
 df_raw = pd.concat(chunks)""" % self.raw_dataset_path
@@ -236,7 +258,7 @@ with open(shap_dir / "shap_values_agg.npy", "rb") as file:
 
         cell_13 = """### Dataset slice of the occured anomaly"""
 
-        cell_14 = """df_raw.iloc[anomalies[anomaly_to_explain_id] - 32:anomalies[anomaly_to_explain_id]].reset_index()"""
+        cell_14 = """df_raw.iloc[anomalies[anomaly_to_explain_id] - %d:anomalies[anomaly_to_explain_id]].reset_index()""" %(self.model.ad_module.hparams.seq_length)
 
         nb['cells'] = [nbf.v4.new_code_cell(cell_1),
                        nbf.v4.new_markdown_cell(cell_2),
@@ -260,3 +282,12 @@ with open(shap_dir / "shap_values_agg.npy", "rb") as file:
         with open(fname, 'w') as f:
             nbf.write(nb, f)
 
+if __name__ == '__main__':
+    exp = Explainer(dataset_path="/tmp/ad/data/test_pipeline_pro.csv",
+                    raw_dataset_path="/tmp/ad/data/2022-12-20_10-07-58_log-data.csv",
+                    model_ckpt_path="/tmp/ad/logs/experiments/runs/training/2022-12-20_19-12-17/checkpoints/epoch_002.ckpt",
+                    output_path="/tmp/ad/data",
+                    notebook_path="/tmp/ad/data",
+                    maes_path="/tmp/ad/data/maes.csv",
+                    outlier_threshold=0.97)
+    exp.explain()

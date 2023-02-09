@@ -1,10 +1,12 @@
 ##TODO: define params
 _target_: src.explainable.explainer.Explainer
 raw_dataset_path: ${preprocessor.dataset_path}
-dataset_path: ${preprocessor.output_full_path}
-model_ckpt_path: ${data_dir}/torch_model.ckpt
-maes_path: ${data_dir}/maes.csv
+#dataset_path: ${preprocessor.output_full_path}
+dataset_path: ${data_dir}/test_pipeline_small_pro.csv
+model_ckpt_path: /tmp/ad/logs/experiments/runs/training/2022-12-24_17-51-15/checkpoints/epoch_000.ckpt
+maes_path: ${data_dir}/maes.pt
 output_path: ${data_dir}
 notebook_path: ${notebooks_dir}
+features_to_ignore: ${preprocessor.features_to_ignore}
 #percentage of elements below the anomaly threshold
 outlier_threshold: 0.97

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src package &mdash; lstm-ae-ad 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.datamodules package" href="src.datamodules.html" />
+    <link rel="prev" title="explain module" href="explain.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> lstm-ae-ad
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">lstm-ae-ad</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="new_model_version.html">new_model_version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explain_with_model_version.html">explain_with_model_version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocess.html">preprocess module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explain.html">explain module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">src package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html">src.datamodules package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html">src.models package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.preprocess.html">src.preprocess package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html">src.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.explain_with_model_version_pipeline">src.explain_with_model_version_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.explain_with_model_version_pipeline.explain_with_model_version"><code class="docutils literal notranslate"><span class="pre">explain_with_model_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.explaining_pipeline">src.explaining_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.explaining_pipeline.explain"><code class="docutils literal notranslate"><span class="pre">explain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.new_model_version_pipeline">src.new_model_version_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.new_model_version_pipeline.create_new_model_version"><code class="docutils literal notranslate"><span class="pre">create_new_model_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.preprocessing_pipeline">src.preprocessing_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.preprocessing_pipeline.preprocess"><code class="docutils literal notranslate"><span class="pre">preprocess()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.testing_pipeline">src.testing_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.testing_pipeline.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-src.training_pipeline">src.training_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#src.training_pipeline.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lstm-ae-ad</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">lstm-ae-ad</a></li>
+      <li class="breadcrumb-item active">src package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="src-package">
+<h1>src package<a class="headerlink" href="#src-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src.datamodules.html">src.datamodules package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.datamodules.html#module-src.datamodules.anomaly_dataset">src.datamodules.anomaly_dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.datamodules.html#src.datamodules.anomaly_dataset.AnomalyDataset"><code class="docutils literal notranslate"><span class="pre">AnomalyDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.datamodules.html#module-src.datamodules.data_module">src.datamodules.data_module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule"><code class="docutils literal notranslate"><span class="pre">ADDataModule</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.predict_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.predict_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.setup"><code class="docutils literal notranslate"><span class="pre">ADDataModule.setup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.test_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.test_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.train_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.train_dataloader()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.val_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.val_dataloader()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.models.html">src.models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.components.html">src.models.components package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.components.html#module-src.models.components.decoder">src.models.components.decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.components.html#module-src.models.components.encoder">src.models.components.encoder</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.models.html#module-src.models.model">src.models.model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.models.html#src.models.model.ADModel"><code class="docutils literal notranslate"><span class="pre">ADModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.configure_optimizers"><code class="docutils literal notranslate"><span class="pre">ADModel.configure_optimizers()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.forward"><code class="docutils literal notranslate"><span class="pre">ADModel.forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.on_train_start"><code class="docutils literal notranslate"><span class="pre">ADModel.on_train_start()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.predict_step"><code class="docutils literal notranslate"><span class="pre">ADModel.predict_step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.step"><code class="docutils literal notranslate"><span class="pre">ADModel.step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.test_step"><code class="docutils literal notranslate"><span class="pre">ADModel.test_step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.training"><code class="docutils literal notranslate"><span class="pre">ADModel.training</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.training_step"><code class="docutils literal notranslate"><span class="pre">ADModel.training_step()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html#src.models.model.ADModel.validation_step"><code class="docutils literal notranslate"><span class="pre">ADModel.validation_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.preprocess.html">src.preprocess package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.preprocess.html#module-src.preprocess.preprocessor">src.preprocess.preprocessor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.preprocess.html#src.preprocess.preprocessor.Preprocessor"><code class="docutils literal notranslate"><span class="pre">Preprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.preprocess.html#src.preprocess.preprocessor.Preprocessor.preprocess"><code class="docutils literal notranslate"><span class="pre">Preprocessor.preprocess()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#module-src.utils.utils">src.utils.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_1"><code class="docutils literal notranslate"><span class="pre">IP_1()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_2"><code class="docutils literal notranslate"><span class="pre">IP_2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_3"><code class="docutils literal notranslate"><span class="pre">IP_3()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_4"><code class="docutils literal notranslate"><span class="pre">IP_4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.utils.get_num_features"><code class="docutils literal notranslate"><span class="pre">get_num_features()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.utils.html#src.utils.utils.ms_since_w_b"><code class="docutils literal notranslate"><span class="pre">ms_since_w_b()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-src.explain_with_model_version_pipeline">
+<span id="src-explain-with-model-version-pipeline-module"></span><h2>src.explain_with_model_version_pipeline module<a class="headerlink" href="#module-src.explain_with_model_version_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.explain_with_model_version_pipeline.explain_with_model_version">
+<span class="sig-prename descclassname"><span class="pre">src.explain_with_model_version_pipeline.</span></span><span class="sig-name descname"><span class="pre">explain_with_model_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/explain_with_model_version_pipeline.html#explain_with_model_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.explain_with_model_version_pipeline.explain_with_model_version" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Run the explaining pipeline for a given dataset and model version.</p>
+<p>This function runs the explaining pipeline, including preprocessing and explanation generation, for a given dataset specified
+by config.dataset_to_explain_path and a model version specified by config.model_version. The pipeline saves the results to a specified run path.
+If the run path already exists, the function prompts the user to confirm whether they want to rerun the
+pipeline for the same dataset.</p>
+<p>config file specified in configs/explain_with_model_version.yaml</p>
+</div></blockquote>
+<dl>
+<dt>config<span class="classifier">Dict[str, Any]</span></dt><dd><blockquote>
+<div><dl class="simple">
+<dt>Configuration dictionary containing for the explaining pipeline. The configuration should include the following keys:</dt><dd><ul class="simple">
+<li><p>“dataset_to_explain_path”: (str) The file path of the dataset to be explained. The file name should be in the format “YYYY-MM-DD_HH-MM-SS_log-data.csv”.</p></li>
+<li><p>“model_version”: (str ) The version of the model to be used for explaining the dataset. The version name should be in the format “YYYY-MM-DD_HH-MM-SS”.</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="simple">
+<dt>Optional[float]</dt><dd><p>Returns <cite>None</cite> if the explaining pipeline completed successfully.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>AttributeError</dt><dd><p>If the model version path does not exist in the expected location.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-src.explaining_pipeline">
+<span id="src-explaining-pipeline-module"></span><h2>src.explaining_pipeline module<a class="headerlink" href="#module-src.explaining_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.explaining_pipeline.explain">
+<span class="sig-prename descclassname"><span class="pre">src.explaining_pipeline.</span></span><span class="sig-name descname"><span class="pre">explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/explaining_pipeline.html#explain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.explaining_pipeline.explain" title="Permalink to this definition"></a></dt>
+<dd><p>Main function for using a model to predict anomalies in a dataset and also explaining the output with shap. The results are then saved
+to a jupyter notebook that runs out of the box.</p>
+<p>config file specified in configs/explain.yaml</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>config<span class="classifier">Dict[str, Any]</span></dt><dd><dl class="simple">
+<dt>Configuration dictionary containing the following keys:</dt><dd><ul class="simple">
+<li><p>“seed”: (int, optional) Seed for random number generators.</p></li>
+<li><p>“preprocessor”: (Dict[str, Any]) Configuration dictionary for the preprocessor.</p></li>
+<li><p>“extras”: (Dict[str, Any], optional) Configuration dictionary for optional utilities.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-src.new_model_version_pipeline">
+<span id="src-new-model-version-pipeline-module"></span><h2>src.new_model_version_pipeline module<a class="headerlink" href="#module-src.new_model_version_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.new_model_version_pipeline.create_new_model_version">
+<span class="sig-prename descclassname"><span class="pre">src.new_model_version_pipeline.</span></span><span class="sig-name descname"><span class="pre">create_new_model_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/new_model_version_pipeline.html#create_new_model_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.new_model_version_pipeline.create_new_model_version" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new model version by running the preprocessing and training pipelines.</p>
+<p>This function creates a new model version by running the preprocessing and training pipelines on a given dataset, specified in the <cite>config</cite> argument.
+The pipelines save the results to a specified run path. If the run path already exists, the function prompts the user to confirm whether they want
+to rerun the pipelines for the same dataset. The pipeline saves a ready to use explain.yaml config. To use that config, refer to the explain_with_model_version pipeline.</p>
+<p>config file specified in configs/new_model_version.yaml
+Parameters
+———-
+config : Dict[str, Any]</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Configuration dictionary containing for the preprocessing a dataset and training a new model version on it. The configuration should include the following keys:</dt><dd><ul class="simple">
+<li><p>“dataset_path”: (str) The file path of the dataset to be use. The file name should be in the format “YYYY-MM-DD_HH-MM-SS_log-data.csv”.</p></li>
+<li><p>“features_to_ignore”: (list) A list of feature names to be ignored during preprocessing.</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<section id="id1">
+<h3>Returns<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>Optional[float]</dt><dd><p>Returns <cite>None</cite> if the model version creation process completed successfully.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-src.preprocessing_pipeline">
+<span id="src-preprocessing-pipeline-module"></span><h2>src.preprocessing_pipeline module<a class="headerlink" href="#module-src.preprocessing_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.preprocessing_pipeline.preprocess">
+<span class="sig-prename descclassname"><span class="pre">src.preprocessing_pipeline.</span></span><span class="sig-name descname"><span class="pre">preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/preprocessing_pipeline.html#preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.preprocessing_pipeline.preprocess" title="Permalink to this definition"></a></dt>
+<dd><p>Main function for preprocessing data.</p>
+<p>config file specified in configs/preprocess.yaml</p>
+<section id="id2">
+<h3>Parameters<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>config<span class="classifier">Dict[str, Any]</span></dt><dd><dl class="simple">
+<dt>Configuration dictionary containing the following keys:</dt><dd><ul class="simple">
+<li><p>“seed”: (int, optional) Seed for random number generators.</p></li>
+<li><p>“preprocessor”: (Dict[str, Any]) Configuration dictionary for the preprocessor.</p></li>
+<li><p>“extras”: (Dict[str, Any], optional) Configuration dictionary for optional utilities.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id3">
+<h3>Returns<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-src.testing_pipeline">
+<span id="src-testing-pipeline-module"></span><h2>src.testing_pipeline module<a class="headerlink" href="#module-src.testing_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.testing_pipeline.test">
+<span class="sig-prename descclassname"><span class="pre">src.testing_pipeline.</span></span><span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/testing_pipeline.html#test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.testing_pipeline.test" title="Permalink to this definition"></a></dt>
+<dd><p>Testing pipeline.</p>
+<section id="id4">
+<h3>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>config<span class="classifier">Dict[str, Any]</span></dt><dd><dl class="simple">
+<dt>Configuration dictionary containing the following keys:</dt><dd><ul class="simple">
+<li><p>“seed”: (int, optional) Seed for random number generators.</p></li>
+<li><p>“ckpt_path”: (str) Path to checkpoint file.</p></li>
+<li><p>“datamodule”: (Dict[str, Any]) Configuration dictionary for the data module.</p></li>
+<li><p>“model”: (Dict[str, Any]) Configuration dictionary for the model.</p></li>
+<li><p>“trainer”: (Dict[str, Any]) Configuration dictionary for the trainer.</p></li>
+<li><p>“logger”: (Dict[str, Dict[str, Any]], optional) Configuration dictionaries for the loggers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id5">
+<h3>Returns<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>None</p>
+</section>
+</dd></dl>
+
+</section>
+<section id="module-src.training_pipeline">
+<span id="src-training-pipeline-module"></span><h2>src.training_pipeline module<a class="headerlink" href="#module-src.training_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.training_pipeline.train">
+<span class="sig-prename descclassname"><span class="pre">src.training_pipeline.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/training_pipeline.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.training_pipeline.train" title="Permalink to this definition"></a></dt>
+<dd><p>Pipeline for training a PyTorch model. Can additionally evaluate the model on a testset.
+Outputs the mae values of the training dataset to a file which path is specified by config.maes_path.</p>
+<section id="id6">
+<h3>Parameters<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>config<span class="classifier">Dict[str, Any]</span></dt><dd><dl class="simple">
+<dt>Configuration dictionary containing the following keys:</dt><dd><ul class="simple">
+<li><p>“seed”: (int, optional) Seed for random number generators.</p></li>
+<li><p>“train”: (bool, optional) Flag to indicate whether to train the model. Default is <cite>True</cite>.</p></li>
+<li><p>“test”: (bool, optional) Flag to indicate whether to test the model. Default is <cite>False</cite>.</p></li>
+<li><p>“optimized_metric”: (str, optional) Metric to be used for hyperparameter optimization.</p></li>
+<li><p>“datamodule”: (Dict[str, Any]) Configuration dictionary for the data module.</p></li>
+<li><p>“model”: (Dict[str, Any]) Configuration dictionary for the model.</p></li>
+<li><p>“trainer”: (Dict[str, Any]) Configuration dictionary for the trainer.</p></li>
+<li><p>“callbacks”: (Dict[str, Dict[str, Any]], optional) Configuration dictionaries for the callbacks.</p></li>
+<li><p>“logger”: (Dict[str, Dict[str, Any]], optional) Configuration dictionaries for the loggers.</p></li>
+<li><p>“wrapper”: (Dict[str, Any]) Configuration dictionary for the wrapper module.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="id7">
+<h3>Returns<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>score<span class="classifier">float, optional</span></dt><dd><p>Score of the <cite>optimized_metric</cite> for hyperparameter optimization. Returned only if <cite>optimized_metric</cite> is
+provided in the configuration.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="explain.html" class="btn btn-neutral float-left" title="explain module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.datamodules.html" class="btn btn-neutral float-right" title="src.datamodules package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Mohamed Said Derbel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

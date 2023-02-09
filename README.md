@@ -2,8 +2,7 @@
 
 ## Overview
 
-Implementation of an LSTM-Autoencoder based neural network for Anomaly detection in Industrial Conntrol Systems (ICS) network logs. 
-The output of the model is then explained using the [shap](https://github.com/slundberg/shap) library 
+Implementation of an LSTM-Autoencoder shaped neural network for Anomaly detection in Industrial Conntrol Systems (ICS) network logs.
 
 
 ## How to install dependencies

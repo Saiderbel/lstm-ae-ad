@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>new_model_version module &mdash; lstm-ae-ad 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="explain_with_model_version module" href="explain_with_model_version.html" />
+    <link rel="prev" title="lstm-ae-ad" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> lstm-ae-ad
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">lstm-ae-ad</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">new_model_version module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#new_model_version.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="explain_with_model_version.html">explain_with_model_version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocess.html">preprocess module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">test module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explain.html">explain module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.html">src package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lstm-ae-ad</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">lstm-ae-ad</a></li>
+      <li class="breadcrumb-item active">new_model_version module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/new_model_version.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-new_model_version">
+<span id="new-model-version-module"></span><h1>new_model_version module<a class="headerlink" href="#module-new_model_version" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="new_model_version.main">
+<span class="sig-prename descclassname"><span class="pre">new_model_version.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/new_model_version.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#new_model_version.main" title="Permalink to this definition"></a></dt>
+<dd><p>Main function for training a new model version on a specified dataset.</p>
+<p>config file specified in configs/new_model_version.yaml</p>
+<p>could be called from command line with this format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python new_model_version.py dataset_path=&quot;path/to/set&quot; &#39;features_to_ignore=[&quot;feat_name&quot;, .. ]&#39; gpus=&lt;num_of_gpus&gt;
+</pre></div>
+</div>
+<p>The number of gpus should be 0 if training on cpu,
+example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python new_model_version.py dataset_path=&quot;/home/2022-12-25_23-00-00_log-data.csv&quot; &#39;features_to_ignore=[&quot;Bytes (custom)&quot;]&#39; gpus=0
+</pre></div>
+</div>
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>config<span class="classifier">Dict[str, Any]</span></dt><dd><dl class="simple">
+<dt>Configuration dictionary containing for the preprocessing a dataset and training a new model version on it. The configuration should include the following keys:</dt><dd><ul class="simple">
+<li><p>“dataset_path”: (str) The file path of the dataset to be use. The file name should be in the format “YYYY-MM-DD_HH-MM-SS_log-data.csv”.</p></li>
+<li><p>“features_to_ignore”: (list) A list of feature names to be ignored during preprocessing.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt>None:</dt><dd><p>Returns <cite>None</cite> if the pipeline completed successfully.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="lstm-ae-ad" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="explain_with_model_version.html" class="btn btn-neutral float-right" title="explain_with_model_version module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Mohamed Said Derbel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

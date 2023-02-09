@@ -1,10 +1,10 @@
 _target_: src.datamodules.data_module.ADDataModule
 
 ##TODO: change params here
-dataset_path: ${data_dir}/dataset_overfit.csv # data_dir is specified in config.yaml of the parent caller
+dataset_path: ${data_dir}/test_pipeline_small_pro.csv # data_dir is specified in config.yaml of the parent caller
 #batch_size: ${batch_size} #also specified in the global config.yaml of the patent caller
-batch_size: 32
+batch_size: 512
 #batch_size: model.batchsize
 #num_workers: 0
 seq_len: 32
-#pin_memory: Falsed
+#pin_memory: False

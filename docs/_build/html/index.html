@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-based Network Anomaly Detection &mdash; lstm-ae-ad 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="lstm-ae-ad" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="#" class="icon icon-home"> lstm-ae-ad
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">lstm-ae-ad</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">lstm-ae-ad</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">AI-based Network Anomaly Detection</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="ai-based-network-anomaly-detection">
+<h1>AI-based Network Anomaly Detection<a class="headerlink" href="#ai-based-network-anomaly-detection" title="Permalink to this heading"></a></h1>
+<section id="lstm-ae-ad">
+<h2>lstm-ae-ad<a class="headerlink" href="#lstm-ae-ad" title="Permalink to this heading"></a></h2>
+<p>The goal of this project is to develop a machine learning model that can accurately identify anomalies in network logs for industrial control systems. To achieve this, the project employs an LSTM-Autoencoder model, which is a type of deep learning neural network architecture that is well-suited for time series data.</p>
+<p>The project provides several pipelines for data processing, model training and testing, and prediction on new datasets.</p>
+<p>The <em>new_model_version pipeline</em> allows for the creation of a new model version based on a provided dataset. This pipeline processes the dataset, trains the LSTM-Autoencoder model, and saves the trained model along with all necessary data and files for later use.</p>
+<p>The <em>explain_with_model_version</em> pipeline can be used to make predictions on new datasets using a previously trained model version. This pipeline loads the trained model and uses it to make predictions on the new data, outputting the results as well as their explainability.</p>
+<p>In addition to these main pipelines, the project also includes other utilities for data preprocessing, model evaluation, and visualization of results.</p>
+</section>
+<section id="setup">
+<h2>setup<a class="headerlink" href="#setup" title="Permalink to this heading"></a></h2>
+<p>Install package requirements via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
+</pre></div>
+</div>
+<p>A script is provided to install conda, create a new conda environment and install the packages. For that run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ chmod+x conda.sh init_env.sh
+$ ./conda.sh
+</pre></div>
+</div>
+<p>restart terminal and run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./init_env.sh
+</pre></div>
+</div>
+<p>After this you should be able to activate the environment via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda activate ad
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<h2>usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>Note</strong>: The dataset is expected to be a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file with a name of this format:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">yyyy-mm-dd_hh-mm-ss_log-data.csv</span></code></p></li>
+</ul>
+</dd>
+<dt>and have the following features:</dt><dd><ul class="simple">
+<li><p>‘Bytes (custom)’, ‘Destination IP’, ‘Destination Port’, ‘Event Name’, ‘Log Source’, ‘Magnitude’, ‘Source IP’, ‘Start Time’</p></li>
+</ul>
+</dd>
+</dl>
+<p>Any additional or missing features will lead to failure. In order to fix that, a code update is required (preprocessing pipeline, setting the right number of features to the model).</p>
+<p>It is possible to ignore one or many features by means of the <code class="docutils literal notranslate"><span class="pre">features_to_ignore</span></code> parameter.</p>
+<p>To run any of the provided pipelines one can either specify the pipeline configs in the respecitive config file in <cite>configs/</cite> or provide them as command line arguments.
+For most of the pipelines it is recommended to use the config files and then run the pipeline in project root:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python pipeline_name.py
+</pre></div>
+</div>
+<p><em>new_model_version pipeline</em> and <em>explain_with_model_version</em> represent the core pipelines for a straightforward use of the package.</p>
+<blockquote>
+<div><p><em>new_model_version pipeline</em>: this pipeline takes as arguments a dataset path <code class="docutils literal notranslate"><span class="pre">dataset_path</span></code>, a set of features <code class="docutils literal notranslate"><span class="pre">features_to_ignore</span></code> one wishes
+to ignore and the number <code class="docutils literal notranslate"><span class="pre">gpus</span></code> of gpus one wishes to use (0 for cpu), and does the following:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Preprocess the provided dataset</p></li>
+<li><p>Save the preprocessed dataset as well as feature encoders/transformers to use for predicting on other datasets</p></li>
+<li><p>Train a model version based on the dataset</p></li>
+<li><p>Save model and the set of training mean absolute errors (used later to define anomaly thresholds)</p></li>
+<li><p>Generate config file to predict on other datasets using this model version</p></li>
+</ol>
+</div></blockquote>
+<p>To run the pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python new_model_version.py dataset_path=&quot;path/to/set&quot; &#39;features_to_ignore=[&quot;feat_name&quot;, .. ]&#39; gpus=&lt;num_of_gpus&gt;
+</pre></div>
+</div>
+<p>note that passing the features_to_ignore attribute is done within two single quotes ‘’. If given solely a dataset filename
+we assume the file is situatued in the <em>data/</em> folder.</p>
+<p><em>explain_with_model_version</em>: this pipeline takes as arguments a dataset path <code class="docutils literal notranslate"><span class="pre">dataset_to_explain_path</span></code>, a model version name <code class="docutils literal notranslate"><span class="pre">model_version</span></code> one wishes
+to use, and a float that represent the benign fraction of the training dataset and does the following</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Preprocess the provided dataset using the feature processors of the provided model version and save it</p></li>
+<li><p>Use the provided model to predict anomalies in the dataset</p></li>
+<li><p>Explain model predictions.</p></li>
+<li><p>Generate a notebook that runs out-of-the-box to provide an overview of the detected anomalies as well as their respective explanations.</p></li>
+</ol>
+</div></blockquote>
+<p>To run the pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python explain_with_model_version.py dataset_to_explain_path=&quot;/path/to/set&quot; model_version=&lt;model_version&gt; outlier_threshold=0.99
+</pre></div>
+</div>
+<p>If given solely a dataset filename we assume the file is situatued in the <em>data/</em> folder.</p>
+</div></blockquote>
+<p>Running this pipeline triggers the following warning <code class="docutils literal notranslate"><span class="pre">Warning:</span> <span class="pre">unrecognized</span> <span class="pre">nn.Module:</span> <span class="pre">RNN</span></code>. This is due to the fact that LSTMs and RNNs are not yet supported by shap.
+It is to note that explaining large datasets takes a bit long since the computations don’t run on the gpu.
+The authors quoted:</p>
+<blockquote>
+<div><p>RNNs aren’t yet supported for the PyTorch DeepExplainer (A warning pops up to let you know which modules aren’t supported yet: Warning: unrecognized nn.Module: RNN).
+In this case, the explainer assumes the module is linear, and makes no change to the gradient.
+Since RNNs contain nonlinearities, this is probably contributing to the problem.</p>
+<p>Adding RNN support for the PyTorch DeepExplainer is definitely planned, but is a little tricky because - since
+a lot of stuff is hidden in PyTorch’s C++ backend - RNN layers can’t be broken down into their simpler operations.</p>
+</div></blockquote>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">lstm-ae-ad</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="new_model_version.html">new_model_version module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="new_model_version.html#new_model_version.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="explain_with_model_version.html">explain_with_model_version module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="explain_with_model_version.html#explain_with_model_version.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="preprocess.html">preprocess module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="preprocess.html#preprocess.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="train.html">train module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="train.html#train.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="test.html">test module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="test.html#test.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="explain.html">explain module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="explain.html#explain.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.html">src package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.datamodules.html">src.datamodules package</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="src.datamodules.html#module-src.datamodules.anomaly_dataset">src.datamodules.anomaly_dataset</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="src.datamodules.html#src.datamodules.anomaly_dataset.AnomalyDataset"><code class="docutils literal notranslate"><span class="pre">AnomalyDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="src.datamodules.html#module-src.datamodules.data_module">src.datamodules.data_module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule"><code class="docutils literal notranslate"><span class="pre">ADDataModule</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.predict_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.predict_dataloader()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.setup"><code class="docutils literal notranslate"><span class="pre">ADDataModule.setup()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.test_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.test_dataloader()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.train_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.train_dataloader()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.datamodules.html#src.datamodules.data_module.ADDataModule.val_dataloader"><code class="docutils literal notranslate"><span class="pre">ADDataModule.val_dataloader()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="src.models.html">src.models package</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="src.models.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="src.models.components.html">src.models.components package</a><ul>
+<li class="toctree-l7"><a class="reference internal" href="src.models.components.html#module-src.models.components.decoder">src.models.components.decoder</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="src.models.components.html#src.models.components.decoder.Decoder"><code class="docutils literal notranslate"><span class="pre">Decoder</span></code></a><ul>
+<li class="toctree-l9"><a class="reference internal" href="src.models.components.html#src.models.components.decoder.Decoder.forward"><code class="docutils literal notranslate"><span class="pre">Decoder.forward()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="src.models.components.html#src.models.components.decoder.Decoder.training"><code class="docutils literal notranslate"><span class="pre">Decoder.training</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.components.html#module-src.models.components.encoder">src.models.components.encoder</a><ul>
+<li class="toctree-l8"><a class="reference internal" href="src.models.components.html#src.models.components.encoder.Encoder"><code class="docutils literal notranslate"><span class="pre">Encoder</span></code></a><ul>
+<li class="toctree-l9"><a class="reference internal" href="src.models.components.html#src.models.components.encoder.Encoder.forward"><code class="docutils literal notranslate"><span class="pre">Encoder.forward()</span></code></a></li>
+<li class="toctree-l9"><a class="reference internal" href="src.models.components.html#src.models.components.encoder.Encoder.training"><code class="docutils literal notranslate"><span class="pre">Encoder.training</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="src.models.html#submodules">Submodules</a></li>
+<li class="toctree-l5"><a class="reference internal" href="src.models.html#module-src.models.model">src.models.model</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="src.models.html#src.models.model.ADModel"><code class="docutils literal notranslate"><span class="pre">ADModel</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.configure_optimizers"><code class="docutils literal notranslate"><span class="pre">ADModel.configure_optimizers()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.forward"><code class="docutils literal notranslate"><span class="pre">ADModel.forward()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.on_train_start"><code class="docutils literal notranslate"><span class="pre">ADModel.on_train_start()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.predict_step"><code class="docutils literal notranslate"><span class="pre">ADModel.predict_step()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.step"><code class="docutils literal notranslate"><span class="pre">ADModel.step()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.test_step"><code class="docutils literal notranslate"><span class="pre">ADModel.test_step()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.training"><code class="docutils literal notranslate"><span class="pre">ADModel.training</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.training_step"><code class="docutils literal notranslate"><span class="pre">ADModel.training_step()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="src.models.html#src.models.model.ADModel.validation_step"><code class="docutils literal notranslate"><span class="pre">ADModel.validation_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="src.preprocess.html">src.preprocess package</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="src.preprocess.html#module-src.preprocess.preprocessor">src.preprocess.preprocessor</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="src.preprocess.html#src.preprocess.preprocessor.Preprocessor"><code class="docutils literal notranslate"><span class="pre">Preprocessor</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="src.preprocess.html#src.preprocess.preprocessor.Preprocessor.preprocess"><code class="docutils literal notranslate"><span class="pre">Preprocessor.preprocess()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="src.utils.html">src.utils package</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="src.utils.html#module-src.utils.utils">src.utils.utils</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_1"><code class="docutils literal notranslate"><span class="pre">IP_1()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_2"><code class="docutils literal notranslate"><span class="pre">IP_2()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_3"><code class="docutils literal notranslate"><span class="pre">IP_3()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="src.utils.html#src.utils.utils.IP_4"><code class="docutils literal notranslate"><span class="pre">IP_4()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="src.utils.html#src.utils.utils.get_num_features"><code class="docutils literal notranslate"><span class="pre">get_num_features()</span></code></a></li>
+<li class="toctree-l6"><a class="reference internal" href="src.utils.html#src.utils.utils.ms_since_w_b"><code class="docutils literal notranslate"><span class="pre">ms_since_w_b()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.html#module-src.explain_with_model_version_pipeline">src.explain_with_model_version_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.html#src.explain_with_model_version_pipeline.explain_with_model_version"><code class="docutils literal notranslate"><span class="pre">explain_with_model_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.html#module-src.explaining_pipeline">src.explaining_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.html#src.explaining_pipeline.explain"><code class="docutils literal notranslate"><span class="pre">explain()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.html#module-src.new_model_version_pipeline">src.new_model_version_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.html#src.new_model_version_pipeline.create_new_model_version"><code class="docutils literal notranslate"><span class="pre">create_new_model_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.html#module-src.preprocessing_pipeline">src.preprocessing_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.html#src.preprocessing_pipeline.preprocess"><code class="docutils literal notranslate"><span class="pre">preprocess()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.html#module-src.testing_pipeline">src.testing_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.html#src.testing_pipeline.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.html#module-src.training_pipeline">src.training_pipeline module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.html#src.training_pipeline.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-right" title="lstm-ae-ad" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Mohamed Said Derbel.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

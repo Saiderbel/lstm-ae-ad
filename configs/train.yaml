@@ -5,10 +5,12 @@ defaults:
   - _self_
   - datamodule: addatamod.yaml
   - model: admodel.yaml
-  - callbacks: defaultt.yaml
+  - wrapper: default.yaml
+  - callbacks: default.yaml
   - logger: tensorboard.yaml # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
   - trainer: default.yaml
   - log_dir: default.yaml
+  - preprocessor: default.yaml
 
   # experiment configs allow for version control of specific configurations
   # e.g. best hyperparameters for each combination of model and datamodule
@@ -33,8 +35,13 @@ defaults:
 # https://hydra.cc/docs/next/tutorials/basic/running_your_app/working_directory
 original_work_dir: ${hydra:runtime.cwd}
 
+#wrapper: src.explainable.ModelWrapper.ModelWrapper
+
 # path to folder with data
 data_dir: ${original_work_dir}/data/
+
+# path to folder with data
+maes_path: ${original_work_dir}/data/maes.pt
 
 # pretty print config at the start of the run using Rich library
 print_config: True
